@@ -7,3 +7,7 @@ backend/venv/
 backend/dist/
 backend/build/
 backend/data/
+__pycache__/
+*.pyc
+.env
+node_modules/
