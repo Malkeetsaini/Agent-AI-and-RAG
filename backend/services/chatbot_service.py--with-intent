@@ -1,0 +1,197 @@
+import os
+
+from google import genai
+
+from backend.services.search_service import (
+    semantic_search
+)
+
+client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
+
+
+def chat_agent(
+    db,
+    user_id,
+    message
+):
+
+    intent = detect_intent(
+        message
+    )
+
+    if intent == "GENERAL_CHAT":
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=message
+        )
+
+        return {
+            "type": intent,
+            "answer": response.text
+        }
+
+    elif intent == "PRODUCT_SEARCH":
+
+        return handle_product_search(
+            message
+        )
+
+    elif intent == "VIEW_CART":
+
+        return handle_view_cart(
+            db,
+            user_id
+        )
+
+    elif intent == "ADD_TO_CART":
+
+        return handle_add_to_cart(
+            db,
+            user_id,
+            message
+        )
+
+    elif intent == "PLACE_ORDER":
+
+        return handle_place_order(
+            db,
+            user_id
+        )
+
+    return {
+        "message":
+        "Intent not supported"
+    }
+
+def detect_intent(message: str):
+
+    prompt = f"""
+    Classify the user query into one category.
+
+    Categories:
+
+    GENERAL_CHAT
+    PRODUCT_SEARCH
+    ADD_TO_CART
+    VIEW_CART
+    PLACE_ORDER
+
+    Examples:
+
+    hello
+    -> GENERAL_CHAT
+
+    show me bicycles
+    -> PRODUCT_SEARCH
+
+    add first bicycle to cart
+    -> ADD_TO_CART
+
+    show my cart
+    -> VIEW_CART
+
+    place my order
+    -> PLACE_ORDER
+
+    Query:
+    {message}
+
+    Return only category name.
+    """
+
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt
+    )
+
+    return response.text.strip()
+
+
+def handle_product_search(message):
+
+    products = semantic_search(
+        query=message,
+        top_k=5
+    )
+
+    return {
+        "type": "PRODUCT_SEARCH",
+        "products": products
+    }
+
+
+from backend.services.cart_service import (
+    get_cart
+)
+
+def handle_view_cart(
+    db,
+    user_id
+):
+
+    cart = get_cart(
+        db,
+        user_id
+    )
+
+    return {
+        "type": "VIEW_CART",
+        "cart": cart
+    }
+
+from backend.services.order_service import (
+    create_order
+)
+
+def handle_place_order(
+    db,
+    user_id
+):
+
+    result = create_order(
+        db,
+        user_id
+    )
+
+    return {
+        "type": "PLACE_ORDER",
+        "data": result
+    }
+
+
+
+from backend.services.cart_service import (
+    add_to_cart
+)
+
+def handle_add_to_cart(
+    db,
+    user_id,
+    message
+):
+
+    products = semantic_search(
+        query=message,
+        top_k=1
+    )
+
+    if not products:
+
+        return {
+            "message":
+            "No product found"
+        }
+
+    product_id = int(
+        products[0]["product_id"]
+    )
+
+    return add_to_cart(
+        db,
+        user_id,
+        product_id,
+        1
+    )

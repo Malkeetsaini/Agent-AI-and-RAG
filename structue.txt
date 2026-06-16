@@ -1,0 +1,137 @@
+app/
+│
+├── backend/
+│   │
+│   ├── main.py
+│   │
+│   ├── database/
+│   │   ├── base.py
+│   │   ├── config.py
+│   │   ├── connection.py
+│   │   └── session.py
+│   │
+│   ├── models/
+│   │   ├── user.py
+│   │   ├── product.py
+│   │   ├── cart.py
+│   │   ├── cart_item.py
+│   │   ├── order.py
+│   │   ├── order_item.py
+│   │   └── chat_history.py
+│   │
+│   ├── schemas/
+│   │   ├── auth.py
+│   │   ├── product.py
+│   │   ├── cart.py
+│   │   ├── order.py
+│   │   ├── chatbot.py
+│   │   └── search.py
+│   │
+│   ├── routers/
+│   │   ├── auth.py
+│   │   ├── products.py
+│   │   ├── cart.py
+│   │   ├── orders.py
+│   │   ├── search.py
+│   │   ├── image_search.py
+│   │   └── chatbot.py
+│   │
+│   ├── services/
+│   │   ├── auth_service.py
+│   │   ├── product_service.py
+│   │   ├── cart_service.py
+│   │   ├── order_service.py
+│   │   ├── search_service.py
+│   │   ├── image_search_service.py
+│   │   └── chatbot_service.py
+│   │
+│   ├── agents/
+│   │   ├── shopping_agent.py
+│   │   ├── tools.py
+│   │   ├── prompts.py
+│   │   └── agent_executor.py
+│   │
+│   ├── vectordb/
+│   │   ├── chroma_client.py
+│   │   └── vector_search.py
+│   │
+│   ├── embeddings/
+│   │   ├── product_embedding.py
+│   │   ├── image_embedding.py
+│   │   └── generate_embeddings.py
+│   │
+│   ├── ai_models/
+│   │   ├── llm.py
+│   │   ├── clip_model.py
+│   │   └── embedding_model.py
+│   │
+│   ├── middleware/
+│   │   ├── auth_middleware.py
+│   │   └── logging_middleware.py
+│   │
+│   ├── utils/
+│   │   ├── jwt.py
+│   │   ├── hashing.py
+│   │   ├── csv_loader.py
+│   │   └── image_utils.py
+│   │
+│   ├── uploads/
+│   │   ├── products/
+│   │   └── search_images/
+│   │
+│   └── exceptions/
+│       └── handlers.py
+│
+├── frontend/
+│   │
+│   ├── public/
+│   │
+│   ├── src/
+│   │   │
+│   │   ├── api/
+│   │   │   ├── authApi.js
+│   │   │   ├── productApi.js
+│   │   │   ├── cartApi.js
+│   │   │   ├── orderApi.js
+│   │   │   └── chatbotApi.js
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Home.jsx
+│   │   │   ├── ProductDetails.jsx
+│   │   │   ├── Cart.jsx
+│   │   │   ├── Checkout.jsx
+│   │   │   └── Chatbot.jsx
+│   │   │
+│   │   ├── components/
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── ProductCard.jsx
+│   │   │   ├── SearchBar.jsx
+│   │   │   ├── ImageSearch.jsx
+│   │   │   ├── ChatWidget.jsx
+│   │   │   └── CartDrawer.jsx
+│   │   │
+│   │   ├── context/
+│   │   │   ├── AuthContext.jsx
+│   │   │   └── CartContext.jsx
+│   │   │
+│   │   ├── hooks/
+│   │   │
+│   │   ├── routes/
+│   │   │
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   │
+│   └── package.json
+│
+├── data/
+│   ├── fashion.csv
+│   ├── jewelry.csv
+│   └── cycle.csv
+│
+├── requirements.txt
+│
+├── .env
+│
+├── docker-compose.yml
+│
+└── README.md
